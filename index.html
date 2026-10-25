@@ -1,1 +1,114 @@
 
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#116149">
+<title>Τιμομέτρο | Σύγκριση τιμών</title>
+<style>
+:root{--green:#116149;--light:#e9f5ef;--ink:#172b24;--muted:#68776f;--line:#e2e9e4;--bg:#f5f8f5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+header{background:var(--green);color:white;padding:24px 18px 34px}
+.wrap{max-width:1080px;margin:auto}
+.brand{display:flex;align-items:center;gap:12px;font-size:25px;font-weight:800}
+.logo{background:white;color:var(--green);width:43px;height:43px;border-radius:13px;display:grid;place-items:center;font-size:25px}
+header p{color:#d8eee3;margin:10px 0 22px}
+.search{display:flex;gap:8px;background:white;padding:7px;border-radius:14px}
+.search input{flex:1;min-width:0;border:0;padding:12px;font-size:16px;outline:none}
+button,select{font:inherit;cursor:pointer}
+.search button{border:0;border-radius:10px;background:#f1c75b;color:#26392f;padding:12px 19px;font-weight:700}
+main{max-width:1080px;margin:-14px auto 40px;padding:0 16px}
+.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:17px;margin-bottom:16px}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{font-size:12px;color:var(--muted);display:block;margin-bottom:7px;font-weight:700}
+select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink)}
+.heading{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:24px 2px 12px}
+.heading h2{font-size:20px;margin:0}
+.count{color:var(--muted);font-size:13px}
+.notice{font-size:13px;color:#70551a;background:#fff5d8;border:1px solid #f3e2a7;padding:12px;border-radius:11px;line-height:1.5;margin-bottom:16px}
+.product{background:white;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:10px}
+.producttop{display:flex;justify-content:space-between;gap:12px}
+.product h3{font-size:16px;margin:0 0 7px}
+.meta{font-size:13px;color:var(--muted)}
+.tag{font-size:11px;background:#fff2cf;color:#765817;border-radius:6px;padding:5px 7px;height:max-content}
+.prices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:15px}
+.price{border:1px solid var(--line);border-radius:10px;padding:10px;min-width:0}
+.price.best{border:2px solid #54a780;background:#f0faf4;padding:9px}
+.store{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+.amount{font-size:18px;font-weight:800;margin:7px 0 3px}
+.unit{font-size:11px;color:var(--muted)}
+.bestlabel{font-size:10px;color:var(--green);font-weight:700;margin-top:6px}
+.empty{text-align:center;color:var(--muted);padding:35px 10px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(min-width:760px){.filters{grid-template-columns:1fr 1fr 1fr}.prices{grid-template-columns:repeat(7,minmax(0,1fr))}.price{padding:9px}.price.best{padding:8px}.amount{font-size:17px}}
+@media(max-width:420px){.prices{grid-template-columns:repeat(2,minmax(0,1fr))}.filters{grid-template-columns:1fr}.search button{padding:10px}.brand{font-size:22px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap">
+  <div class="brand"><div class="logo">€</div><span>Τιμομέτρο</span></div>
+  <p>Σύγκρινε τιμές. Οργάνωσε τα ψώνια σου. Εξοικονόμησε.</p>
+  <form class="search" id="searchForm">
+   <input id="q" type="search" placeholder="Τι ψάχνεις; π.χ. γάλα, μακαρόνια..." aria-label="Αναζήτηση προϊόντος">
+   <button type="submit">Αναζήτηση</button>
+  </form>
+ </div>
+</header>
+<main>
+ <section class="panel">
+  <div class="filters">
+   <div><label for="category">ΚΑΤΗΓΟΡΙΑ</label>
+    <select id="category"><option value="">Όλες οι κατηγορίες</option><option>Ζυμαρικά</option><option>Γαλακτοκομικά</option><option>Ρύζι</option><option>Καθαριστικά</option><option>Καφές</option><option>Είδη παντοπωλείου</option></select>
+   </div>
+   <div><label for="store">ΣΟΥΠΕΡ ΜΑΡΚΕΤ</label>
+    <select id="store"><option value="">Όλες οι αλυσίδες</option><option>Σκλαβενίτης</option><option>Lidl</option><option>ΑΒ Βασιλόπουλος</option><option>My market</option><option>Μασούτης</option><option>Κρητικός</option><option>Γαλαξίας</option></select>
+   </div>
+   <div><label for="sort">ΤΑΞΙΝΟΜΗΣΗ</label>
+    <select id="sort"><option value="name">Όνομα προϊόντος</option><option value="price">Χαμηλότερη τιμή</option></select>
+   </div>
+  </div>
+ </section>
+ <div class="notice"><strong>Σημαντικό:</strong> Αυτή είναι η δοκιμαστική έκδοση. Οι ενδεικτικές τιμές που εμφανίζονται παρακάτω δεν είναι επιβεβαιωμένες σημερινές τιμές. Χρειάζεται εισαγωγή και έλεγχος πραγματικών δεδομένων πριν χρησιμοποιηθεί για αγορές.</div>
+ <div class="heading"><h2>Προϊόντα</h2><span class="count" id="count"></span></div>
+ <section id="results"></section>
+ <footer>Τιμομέτρο · Σύγκριση τιμών σε ένα σημείο<br>Οι τιμές, οι προσφορές και η διαθεσιμότητα χρειάζονται επιβεβαίωση από κάθε κατάστημα.</footer>
+</main>
+<script>
+const stores=["Σκλαβενίτης","Lidl","ΑΒ Βασιλόπουλος","My market","Μασούτης","Κρητικός","Γαλαξίας"];
+// ΔΟΚΙΜΑΣΤΙΚΑ ΔΕΔΟΜΕΝΑ: αντικατάστησέ τα με επαληθευμένες τιμές.
+const products=[
+ {name:"Μακαρόνια Νο 6",brand:"Παράδειγμα προϊόντος",size:"500 g",category:"Ζυμαρικά",prices:[0.69,null,0.79,0.75,0.82,0.78,0.76]},
+ {name:"Σπαγγέτι ολικής άλεσης",brand:"Παράδειγμα προϊόντος",size:"500 g",category:"Ζυμαρικά",prices:[0.85,null,0.89,0.79,0.92,0.88,null]},
+ {name:"Γάλα πλήρες",brand:"Παράδειγμα προϊόντος",size:"1 L",category:"Γαλακτοκομικά",prices:[1.35,1.19,1.39,1.29,1.32,1.30,1.28]},
+ {name:"Ρύζι parboiled",brand:"Παράδειγμα προϊόντος",size:"500 g",category:"Ρύζι",prices:[1.10,0.99,1.15,1.05,1.12,1.08,1.04]},
+ {name:"Καφές ελληνικός",brand:"Παράδειγμα προϊόντος",size:"200 g",category:"Καφές",prices:[2.49,2.29,2.59,2.45,2.55,2.39,2.42]},
+ {name:"Υγρό πιάτων",brand:"Παράδειγμα προϊόντος",size:"500 ml",category:"Καθαριστικά",prices:[1.65,1.49,1.79,1.59,1.69,1.55,1.62]}
+];
+const euro=n=>n.toLocaleString("el-GR",{style:"currency",currency:"EUR"});
+function render(){
+ const q=document.getElementById("q").value.trim().toLocaleLowerCase("el");
+ const cat=document.getElementById("category").value;
+ const store=document.getElementById("store").value;
+ let list=products.filter(p=>(!q||(p.name+" "+p.brand+" "+p.size).toLocaleLowerCase("el").includes(q))&&(!cat||p.category===cat));
+ if(document.getElementById("sort").value==="price") list.sort((a,b)=>Math.min(...a.prices.filter(x=>x!==null))-Math.min(...b.prices.filter(x=>x!==null)));
+ else list.sort((a,b)=>a.name.localeCompare(b.name,"el"));
+ document.getElementById("count").textContent=list.length+" προϊόντα";
+ const root=document.getElementById("results");
+ if(!list.length){root.innerHTML='<div class="panel empty">Δεν βρέθηκαν προϊόντα. Δοκίμασε άλλη αναζήτηση.</div>';return}
+ root.innerHTML=list.map(p=>{
+  const available=p.prices.map((price,i)=>({price,store:stores[i]})).filter(x=>x.price!==null&&(!store||x.store===store));
+  const min=available.length?Math.min(...available.map(x=>x.price)):null;
+  return `<article class="product"><div class="producttop"><div><h3>${p.name}</h3><div class="meta">${p.brand} · ${p.size} · ${p.category}</div></div><span class="tag">Δοκιμαστικά</span></div><div class="prices">${available.map(x=>`<div class="price ${x.price===min?'best':''}"><div class="store">${x.store}</div><div class="amount">${euro(x.price)}</div><div class="unit">ανά συσκευασία</div>${x.price===min?'<div class="bestlabel">Χαμηλότερη*</div>':''}</div>`).join("")||'<div class="meta">Δεν υπάρχει τιμή για αυτό το κατάστημα.</div>'}</div></article>`;
+ }).join("");
+}
+document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();render()});
+["category","store","sort"].forEach(id=>document.getElementById(id).addEventListener("change",render));
+document.getElementById("q").addEventListener("input",render);
+render();
+</script>
+</body>
+</html>
+
