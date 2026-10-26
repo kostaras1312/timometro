@@ -95,7 +95,7 @@ function render(){
  root.innerHTML=list.map(p=>{
   const available=p.prices.map((price,i)=>({price,store:stores[i]})).filter(x=>x.price!==null&&(!store||x.store===store));
   const min=available.length?Math.min(...available.map(x=>x.price)):null;
-  return `<article class="product"><div class="producttop"><div><h3>${p.name}</h3><div class="meta">${p.brand} · ${p.size} · ${p.category}</div></div><span class="tag">Δοκιμαστικά</span></div><div class="prices">${available.map(x=>`<div class="price ${x.price===min?'best':''}"><div class="store">${x.store}</div><div class="amount">${euro(x.price)}</div><div class="unit">ανά συσκευασία</div>${x.price===min?'<div class="bestlabel">Χαμηλότερη*</div>':''}</div>`).join("")||'<div class="meta">Δεν υπάρχει τιμή για αυτό το κατάστημα.</div>'}</div></article>`;
+  return `<article class="product"><div class="producttop"><div><h3>${p.name}</h3><div class="meta">${p.brand} · ${p.size} · ${p.category}</div></div><span class="tag">Χωρίς επιβεβαιωμένη τιμή</span></div><div class="prices">${available.map(x=>`<div class="price ${x.price===min?'best':''}"><div class="store">${x.store}</div><div class="amount">${euro(x.price)}</div><div class="unit">ανά συσκευασία</div>${x.price===min?'<div class="bestlabel">Χαμηλότερη*</div>':''}</div>`).join("")||'<div class="meta">Δεν υπάρχει τιμή για αυτό το κατάστημα.</div>'}</div></article>`;
  }).join("");
 }
 document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();render()});
