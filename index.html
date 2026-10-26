@@ -79,14 +79,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 const stores=["Σκλαβενίτης","Lidl","ΑΒ Βασιλόπουλος","My market","Μασούτης","Κρητικός","Γαλαξίας"];
 // ΔΟΚΙΜΑΣΤΙΚΑ ΔΕΔΟΜΕΝΑ: αντικατάστησέ τα με επαληθευμένες τιμές.
 
-const products=[
- {name:"Μακαρόνια Νο 6",brand:"",size:"500 g",category:"Ζυμαρικά",prices:[null,null,null,null,null,null,null]},
- {name:"Σπαγγέτι ολικής άλεσης",brand:"",size:"500 g",category:"Ζυμαρικά",prices:[null,null,null,null,null,null,null]},
- {name:"Γάλα πλήρες",brand:"",size:"1 L",category:"Γαλακτοκομικά",prices:[null,null,null,null,null,null,null]},
- {name:"Ρύζι parboiled",brand:"",size:"500 g",category:"Ρύζι",prices:[null,null,null,null,null,null,null]},
- {name:"Καφές ελληνικός",brand:"",size:"200 g",category:"Καφές",prices:[null,null,null,null,null,null,null]},
- {name:"Υγρό πιάτων",brand:"",size:"500 ml",category:"Καθαριστικά",prices:[null,null,null,null,null,null,null]}
-];
+let products=[];
 
 const euro=n=>n.toLocaleString("el-GR",{style:"currency",currency:"EUR"});
 function render(){
@@ -108,7 +101,36 @@ function render(){
 document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();render()});
 ["category","store","sort"].forEach(id=>document.getElementById(id).addEventListener("change",render));
 document.getElementById("q").addEventListener("input",render);
-render();
+
+async function loadCatalog(){
+ const root=document.getElementById("results");
+ try{
+  const response=await fetch("./data/catalog.json");
+  if(!response.ok) throw new Error("catalog");
+  const catalog=await response.json();
+  products=(catalog.products||[]).map(p=>({
+   name:p.name||"",
+   brand:p.brand||"",
+   size:p.size||"",
+   category:p.category||"Άλλα",
+   prices:stores.map((_,i)=>Array.isArray(p.prices)?(p.prices[i]??null):null)
+  }));
+  const category=document.getElementById("category");
+  const categories=[...new Set(products.map(p=>p.category))].sort();
+  category.innerHTML='<option value="">Όλες οι κατηγορίες</option>';
+  categories.forEach(c=>{
+   const option=document.createElement("option");
+   option.value=c;
+   option.textContent=c;
+   category.appendChild(option);
+  });
+  render();
+ }catch(error){
+  document.getElementById("count").textContent="0 προϊόντα";
+  root.innerHTML='<div class="panel empty">Δεν φορτώθηκε ο κατάλογος. Δοκίμασε ξανά αργότερα.</div>';
+ }
+}
+loadCatalog();
 </script>
 </body>
 </html>
